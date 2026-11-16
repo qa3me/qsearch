@@ -155,6 +155,55 @@ public sealed class PackagingTests
     }
 
     [Fact]
+    public void ReleaseWorkflow_PublishesOnlyOwnerTriggeredUnsignedPrereleases()
+    {
+        string root = RepositoryRoot.Find();
+        string workflow = File.ReadAllText(Path.Combine(root, ".github", "workflows", "release.yml"));
+        string ciWorkflow = File.ReadAllText(Path.Combine(root, ".github", "workflows", "ci.yml"));
+        string globalJson = File.ReadAllText(Path.Combine(root, "global.json"));
+
+        int candidateStart = workflow.IndexOf("  unsigned-candidate:", StringComparison.Ordinal);
+        int publisherStart = workflow.IndexOf("  publish-prerelease:", StringComparison.Ordinal);
+        Assert.True(candidateStart >= 0, "Unsigned candidate job was not found.");
+        Assert.True(publisherStart > candidateStart, "Publisher must be a separate job after candidate verification.");
+        string candidate = workflow[candidateStart..publisherStart];
+        string publisher = workflow[publisherStart..];
+
+        Assert.Contains("publish_unsigned_prerelease", workflow, StringComparison.Ordinal);
+        Assert.Contains("github.actor == github.repository_owner", publisher, StringComparison.Ordinal);
+        Assert.Contains("github.triggering_actor == github.repository_owner", publisher, StringComparison.Ordinal);
+        Assert.Contains("needs: unsigned-candidate", publisher, StringComparison.Ordinal);
+        Assert.DoesNotContain("contents: write", candidate, StringComparison.Ordinal);
+        Assert.Contains("contents: write", publisher, StringComparison.Ordinal);
+        Assert.Contains("actions: read", publisher, StringComparison.Ordinal);
+        Assert.Contains(
+            "actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+            publisher,
+            StringComparison.Ordinal);
+        Assert.Contains("$PSNativeCommandUseErrorActionPreference = $true", candidate, StringComparison.Ordinal);
+        Assert.Contains("overwrite: true", candidate, StringComparison.Ordinal);
+        Assert.Contains("--paginate", publisher, StringComparison.Ordinal);
+        Assert.Contains("--slurp", publisher, StringComparison.Ordinal);
+        Assert.Contains("matching-refs/tags/$tag", publisher, StringComparison.Ordinal);
+        Assert.Contains("git/refs", publisher, StringComparison.Ordinal);
+        Assert.Contains("--verify-tag", publisher, StringComparison.Ordinal);
+        Assert.Contains("-ceq", publisher, StringComparison.Ordinal);
+        Assert.Contains("Release asset set mismatch", publisher, StringComparison.Ordinal);
+        Assert.Contains("Unsigned preview", publisher, StringComparison.Ordinal);
+        Assert.Contains("--prerelease", publisher, StringComparison.Ordinal);
+        Assert.Contains("--draft=false", publisher, StringComparison.Ordinal);
+        Assert.Contains("concurrency:", workflow, StringComparison.Ordinal);
+        Assert.Contains("cancel-in-progress: false", workflow, StringComparison.Ordinal);
+        Assert.Contains("dotnet-version: 10.0.404", workflow, StringComparison.Ordinal);
+        Assert.Contains("dotnet-version: 10.0.404", ciWorkflow, StringComparison.Ordinal);
+        Assert.DoesNotContain("dotnet-version: 10.0.x", workflow, StringComparison.Ordinal);
+        Assert.DoesNotContain("dotnet-version: 10.0.x", ciWorkflow, StringComparison.Ordinal);
+        Assert.Contains("\"version\": \"10.0.404\"", globalJson, StringComparison.Ordinal);
+        Assert.Contains("\"rollForward\": \"disable\"", globalJson, StringComparison.Ordinal);
+        Assert.DoesNotContain("publish_public_release", workflow, StringComparison.Ordinal);
+    }
+
+    [Fact]
     public void RuntimeNoticeStager_UsesThePublishedRuntimeConfigVersions()
     {
         string root = RepositoryRoot.Find();
