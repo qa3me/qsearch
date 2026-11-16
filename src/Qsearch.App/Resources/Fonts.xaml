@@ -1,0 +1,6 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <FontFamily x:Key="Qsearch.FontFamily">./Fonts/#Farhang2, Farhang2, Segoe UI, Tahoma</FontFamily>
+    <FontFamily x:Key="Qsearch.BodyFontFamily">./Fonts/#Farhang2, Farhang2, Segoe UI, Tahoma</FontFamily>
+    <FontFamily x:Key="Qsearch.HeadingFontFamily">./Fonts/#Tahrir, Tahrir, Segoe UI Semibold, Segoe UI</FontFamily>
+</ResourceDictionary>

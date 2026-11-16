@@ -1,0 +1,22 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Qsearch.App/Qsearch.App.csproj" />
+    <Project Path="src/Qsearch.Benchmarks/Qsearch.Benchmarks.csproj" />
+    <Project Path="src/Qsearch.ElevatedIndexer/Qsearch.ElevatedIndexer.csproj" />
+    <Project Path="src/Qsearch.Core/Qsearch.Core.csproj" />
+    <Project Path="src/Qsearch.Index/Qsearch.Index.csproj" />
+    <Project Path="src/Qsearch.Safety/Qsearch.Safety.csproj" />
+    <Project Path="src/Qsearch.Windows/Qsearch.Windows.csproj" />
+  </Folder>
+  <Folder Name="/tools/">
+    <Project Path="tools/Qsearch.IconBuilder/Qsearch.IconBuilder.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Qsearch.Architecture.Tests/Qsearch.Architecture.Tests.csproj" />
+    <Project Path="tests/Qsearch.App.Tests/Qsearch.App.Tests.csproj" />
+    <Project Path="tests/Qsearch.Core.Tests/Qsearch.Core.Tests.csproj" />
+    <Project Path="tests/Qsearch.Index.Tests/Qsearch.Index.Tests.csproj" />
+    <Project Path="tests/Qsearch.Safety.Tests/Qsearch.Safety.Tests.csproj" />
+    <Project Path="tests/Qsearch.Windows.Tests/Qsearch.Windows.Tests.csproj" />
+  </Folder>
+</Solution>

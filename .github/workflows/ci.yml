@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build-test-package:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore
+        run: dotnet restore Qsearch.slnx
+
+      - name: Format
+        run: dotnet format Qsearch.slnx --verify-no-changes --no-restore
+
+      - name: Build
+        run: dotnet build Qsearch.slnx -c Release --no-restore -warnaserror
+
+      - name: Test
+        run: dotnet test Qsearch.slnx -c Release --no-build
+
+      - name: Smoke benchmark
+        run: dotnet run --project src/Qsearch.Benchmarks/Qsearch.Benchmarks.csproj -c Release --no-build -- --smoke --output work/benchmarks/smoke.json
+
+      - name: Build portable package
+        shell: pwsh
+        run: ./packaging/build-portable.ps1 -Version 0.1.0-ci.${{ github.run_number }} -OutputDirectory outputs -SourceRevision '${{ github.sha }}'
+
+      - name: Build slim package
+        shell: pwsh
+        run: ./packaging/build-slim.ps1 -Version 0.1.0-ci.${{ github.run_number }} -OutputDirectory outputs -SourceRevision '${{ github.sha }}'
+
+      - name: Verify package contracts
+        shell: pwsh
+        run: |
+          $portable = 'outputs/Qsearch-0.1.0-ci.${{ github.run_number }}-win-x64-portable.zip'
+          $slim = 'outputs/Qsearch-0.1.0-ci.${{ github.run_number }}-win-x64-slim.zip'
+          ./packaging/verify-package.ps1 -Package $portable -ExpectedVersion '0.1.0-ci.${{ github.run_number }}' -ExpectedRevision '${{ github.sha }}'
+          ./packaging/verify-package.ps1 -Package $slim -ExpectedVersion '0.1.0-ci.${{ github.run_number }}' -ExpectedRevision '${{ github.sha }}'
+          $env:QSEARCH_TEST_PACKAGE = (Resolve-Path $portable)
+          $env:QSEARCH_TEST_SLIM_PACKAGE = (Resolve-Path $slim)
+          dotnet test tests/Qsearch.Architecture.Tests/Qsearch.Architecture.Tests.csproj -c Release --no-build
+
+      - name: Upload unsigned evidence
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: qsearch-unsigned-${{ github.sha }}
+          path: |
+            outputs/*
+            work/benchmarks/smoke.json
+          if-no-files-found: error
+          retention-days: 14

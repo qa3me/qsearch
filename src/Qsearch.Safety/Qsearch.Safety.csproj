@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <RootNamespace>Qsearch.Safety</RootNamespace>
+    <AssemblyName>Qsearch.Safety</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Qsearch.Core\Qsearch.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Policy\review-policy.v1.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

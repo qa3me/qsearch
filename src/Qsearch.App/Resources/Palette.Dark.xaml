@@ -1,0 +1,57 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Color x:Key="Qsearch.Background">#06090D</Color>
+    <Color x:Key="Qsearch.PanelColor">#0B1015</Color>
+    <Color x:Key="Qsearch.RaisedColor">#10171E</Color>
+    <Color x:Key="Qsearch.TextColor">#EDF5F2</Color>
+    <Color x:Key="Qsearch.MutedColor">#82918E</Color>
+    <Color x:Key="Qsearch.AccentColor">#1DB954</Color>
+    <Color x:Key="Qsearch.PrimaryFillColor">#1DB954</Color>
+    <Color x:Key="Qsearch.AccentSoftColor">#7DF5D3</Color>
+    <Color x:Key="Qsearch.LineColor">#1D2A31</Color>
+    <Color x:Key="Qsearch.LineStrongColor">#314047</Color>
+    <Color x:Key="Qsearch.WarningColor">#FF8B7E</Color>
+
+    <SolidColorBrush x:Key="Qsearch.BackgroundBrush" Color="{StaticResource Qsearch.Background}" />
+    <SolidColorBrush x:Key="Qsearch.PanelBrush" Color="{StaticResource Qsearch.PanelColor}" />
+    <SolidColorBrush x:Key="Qsearch.RaisedBrush" Color="{StaticResource Qsearch.RaisedColor}" />
+    <SolidColorBrush x:Key="Qsearch.TextBrush" Color="{StaticResource Qsearch.TextColor}" />
+    <SolidColorBrush x:Key="Qsearch.MutedBrush" Color="{StaticResource Qsearch.MutedColor}" />
+    <SolidColorBrush x:Key="Qsearch.AccentBrush" Color="{StaticResource Qsearch.AccentColor}" />
+    <SolidColorBrush x:Key="Qsearch.PrimaryFillBrush" Color="{StaticResource Qsearch.PrimaryFillColor}" />
+    <SolidColorBrush x:Key="Qsearch.AccentSoftBrush" Color="{StaticResource Qsearch.AccentSoftColor}" />
+    <SolidColorBrush x:Key="Qsearch.MarkBrush" Color="#1DB954" />
+    <SolidColorBrush x:Key="Qsearch.LineBrush" Color="{StaticResource Qsearch.LineColor}" />
+    <SolidColorBrush x:Key="Qsearch.LineStrongBrush" Color="{StaticResource Qsearch.LineStrongColor}" />
+    <SolidColorBrush x:Key="Qsearch.WarningBrush" Color="{StaticResource Qsearch.WarningColor}" />
+    <SolidColorBrush x:Key="Qsearch.OnAccentBrush" Color="#04100C" />
+    <SolidColorBrush x:Key="Qsearch.GlassPanelBrush" Color="#C70B1015" />
+    <SolidColorBrush x:Key="Qsearch.GlassRaisedBrush" Color="#D410171E" />
+    <SolidColorBrush x:Key="Qsearch.HeaderBrush" Color="#CC111821" />
+    <SolidColorBrush x:Key="Qsearch.SelectedBrush" Color="#162E2A" />
+    <SolidColorBrush x:Key="Qsearch.ScrollThumbBrush" Color="#4A82918E" />
+    <SolidColorBrush x:Key="Qsearch.StatusChipBrush" Color="#B8111821" />
+    <SolidColorBrush x:Key="Qsearch.StatusChipBorderBrush" Color="#AA24313A" />
+    <SolidColorBrush x:Key="Qsearch.SignalChipBrush" Color="#1A1DB954" />
+    <SolidColorBrush x:Key="Qsearch.SignalChipBorderBrush" Color="#661DB954" />
+    <SolidColorBrush x:Key="Qsearch.WindowOverlayBrush" Color="#E806090D" />
+
+    <DrawingBrush x:Key="Qsearch.GridBrush" TileMode="Tile"
+                  Viewport="0,0,32,32" ViewportUnits="Absolute"
+                  Viewbox="0,0,32,32" ViewboxUnits="Absolute">
+        <DrawingBrush.Drawing>
+            <GeometryDrawing Brush="#EA06090D">
+                <GeometryDrawing.Pen>
+                    <Pen Brush="#121D2A31" Thickness="0.55" />
+                </GeometryDrawing.Pen>
+                <GeometryDrawing.Geometry>
+                    <GeometryGroup>
+                        <RectangleGeometry Rect="0,0,32,32" />
+                        <LineGeometry StartPoint="32,0" EndPoint="32,32" />
+                        <LineGeometry StartPoint="0,32" EndPoint="32,32" />
+                    </GeometryGroup>
+                </GeometryDrawing.Geometry>
+            </GeometryDrawing>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+</ResourceDictionary>

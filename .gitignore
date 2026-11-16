@@ -1,0 +1,14 @@
+bin/
+obj/
+.vs/
+work/
+outputs/
+artifacts/
+TestResults/
+BenchmarkDotNet.Artifacts/
+assets/private/
+*.user
+*.suo
+*.db
+*.db-shm
+*.db-wal

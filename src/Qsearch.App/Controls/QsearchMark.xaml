@@ -1,0 +1,35 @@
+<UserControl x:Class="Qsearch.App.Controls.QsearchMark"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Name="Root"
+             Width="44"
+             Height="44"
+             FlowDirection="LeftToRight"
+             SnapsToDevicePixels="True">
+    <Viewbox Stretch="Uniform">
+        <Canvas Width="700" Height="700" ClipToBounds="True">
+            <Canvas x:Name="Orbit" Width="1000" Height="1000"
+                    Canvas.Left="-150" Canvas.Top="-150"
+                    RenderTransformOrigin="0.5,0.5">
+                <Canvas.RenderTransform>
+                    <RotateTransform Angle="{Binding OrbitAngle, ElementName=Root}" />
+                </Canvas.RenderTransform>
+                <Path Data="M 316.45 256.42 A 305 305 0 0 1 683.55 256.42 L 617.96 343.47 A 196 196 0 0 0 382.04 343.47 Z"
+                      Fill="{DynamicResource Qsearch.MarkBrush}" />
+                <Path Data="M 743.58 316.45 A 305 305 0 0 1 774.13 633.70 L 676.16 585.92 A 196 196 0 0 0 656.53 382.04 Z"
+                      Fill="{DynamicResource Qsearch.MarkBrush}" />
+                <Path Data="M 679.27 746.75 A 305 305 0 0 1 316.45 743.58 L 382.04 656.53 A 196 196 0 0 0 615.21 658.57 Z"
+                      Fill="{DynamicResource Qsearch.MarkBrush}" />
+                <Path Data="M 256.42 683.55 A 305 305 0 0 1 256.42 316.45 L 343.47 382.04 A 196 196 0 0 0 343.47 617.96 Z"
+                      Fill="{DynamicResource Qsearch.MarkBrush}" />
+            </Canvas>
+            <Canvas Width="1000" Height="1000" Canvas.Left="-150" Canvas.Top="-150">
+                <Path Fill="{DynamicResource Qsearch.MarkBrush}">
+                    <Path.Data>
+                        <EllipseGeometry Center="500,500" RadiusX="151" RadiusY="151" />
+                    </Path.Data>
+                </Path>
+            </Canvas>
+        </Canvas>
+    </Viewbox>
+</UserControl>

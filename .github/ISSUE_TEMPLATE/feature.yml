@@ -1,0 +1,32 @@
+name: Feature request
+description: Suggest a focused improvement that preserves the offline boundary.
+title: "[Feature]: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What user problem would this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+    validations:
+      required: true
+  - type: textarea
+    id: privacy
+    attributes:
+      label: Privacy and security impact
+      description: Explain any new data read, stored, executed, or exposed to another process.
+    validations:
+      required: true
+  - type: checkboxes
+    id: boundary
+    attributes:
+      label: Offline boundary
+      options:
+        - label: This request does not require telemetry, cloud lookup, account login, or background downloads.
+          required: true

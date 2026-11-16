@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://qa3.me/qsearch/benchmark-report.schema.json",
+  "title": "Qsearch benchmark report",
+  "type": "object",
+  "required": [
+    "environment",
+    "corpus",
+    "warmupQueries",
+    "measuredQueries",
+    "startupToSearchableMilliseconds",
+    "emptyQuerySort",
+    "journalCatchUp",
+    "latency",
+    "rowsReturned",
+    "peakWorkingSetBytes",
+    "rawSamplesMilliseconds"
+  ],
+  "properties": {
+    "environment": {
+      "type": "object",
+      "required": ["operatingSystem", "framework", "osArchitecture", "processArchitecture", "processorCount", "processor"]
+    },
+    "corpus": {
+      "type": "object",
+      "required": ["records", "seed", "indexBytes"]
+    },
+    "warmupQueries": { "type": "integer", "minimum": 1 },
+    "measuredQueries": { "type": "integer", "minimum": 1 },
+    "startupToSearchableMilliseconds": { "type": "number", "minimum": 0 },
+    "emptyQuerySort": { "$ref": "#/$defs/operation" },
+    "journalCatchUp": { "$ref": "#/$defs/operation" },
+    "latency": {
+      "$ref": "#/$defs/latency"
+    },
+    "rowsReturned": { "type": "integer", "minimum": 0 },
+    "peakWorkingSetBytes": { "type": "integer", "minimum": 1 },
+    "rawSamplesMilliseconds": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "number", "minimum": 0 }
+    }
+  },
+  "$defs": {
+    "latency": {
+      "type": "object",
+      "required": ["p50Milliseconds", "p95Milliseconds", "p99Milliseconds"],
+      "properties": {
+        "p50Milliseconds": { "type": "number", "minimum": 0 },
+        "p95Milliseconds": { "type": "number", "minimum": 0 },
+        "p99Milliseconds": { "type": "number", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "operation": {
+      "type": "object",
+      "required": ["operations", "itemsPerOperation", "totalMilliseconds", "latency"],
+      "properties": {
+        "operations": { "type": "integer", "minimum": 1 },
+        "itemsPerOperation": { "type": "integer", "minimum": 1 },
+        "totalMilliseconds": { "type": "number", "minimum": 0 },
+        "latency": { "$ref": "#/$defs/latency" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "thresholds": {
+    "reviewSuggested": 20,
+    "highCaution": 50
+  },
+  "limits": {
+    "headerBytes": 4096,
+    "entropySampleBytes": 65536,
+    "entropySamples": 3,
+    "entropyMinimumFileBytes": 196608,
+    "automaticEntropyMaximumFileBytes": 268435456,
+    "reviewTimeoutSeconds": 3
+  },
+  "rules": {
+    "name.bidi-control": 40,
+    "name.double-extension": 25,
+    "content.header-conflict": 30,
+    "signature.integrity-failure": 45,
+    "signature.unsigned": 0,
+    "origin.mark-of-web": 5,
+    "location.startup": 35,
+    "location.temporary": 15,
+    "location.downloads": 5,
+    "attributes.hidden-system": 10,
+    "document.macro-with-origin": 15,
+    "shortcut.script-host": 25,
+    "name.unusual-presentation": 20,
+    "content.high-entropy": 10,
+    "category.executable-context": 0
+  }
+}

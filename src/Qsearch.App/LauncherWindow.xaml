@@ -1,0 +1,181 @@
+<Window x:Class="Qsearch.App.LauncherWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:Qsearch.App.Controls"
+        xmlns:viewModels="clr-namespace:Qsearch.App.ViewModels"
+        Title="Qsearch quick launcher"
+        Width="720"
+        Height="500"
+        MinWidth="620"
+        MinHeight="420"
+        WindowStyle="None"
+        AllowsTransparency="False"
+        ResizeMode="CanResizeWithGrip"
+        Topmost="True"
+        ShowInTaskbar="False"
+        ShowActivated="True"
+        WindowStartupLocation="Manual"
+        Background="{DynamicResource Qsearch.BackgroundBrush}"
+        Foreground="{DynamicResource Qsearch.TextBrush}"
+        FontFamily="{DynamicResource Qsearch.FontFamily}"
+        UseLayoutRounding="True"
+        SnapsToDevicePixels="True"
+        Deactivated="OnDeactivated"
+        PreviewKeyDown="OnPreviewKeyDown">
+    <Border x:Name="Surface" Background="{DynamicResource Qsearch.WindowOverlayBrush}"
+            BorderBrush="{DynamicResource Qsearch.LineStrongBrush}"
+            BorderThickness="1"
+            CornerRadius="22"
+            Padding="20">
+        <Grid x:Name="LayoutRoot" Background="{DynamicResource Qsearch.GridBrush}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <controls:QsearchMark Width="36" Height="36">
+                    <controls:QsearchMark.Style>
+                        <Style TargetType="controls:QsearchMark">
+                            <Setter Property="IsAnimated" Value="False" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IndexStartupState}"
+                                             Value="{x:Static viewModels:IndexStartupState.Initializing}">
+                                    <Setter Property="IsAnimated" Value="True" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </controls:QsearchMark.Style>
+                </controls:QsearchMark>
+                <StackPanel Grid.Column="1" Margin="11,0,0,0" VerticalAlignment="Center">
+                    <TextBlock Text="{DynamicResource Launcher.Title}" FontSize="18" Style="{DynamicResource Qsearch.HeadingText}" />
+                    <TextBlock Margin="0,2,0,0">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource Qsearch.MutedText}">
+                                <Setter Property="Text" Value="{DynamicResource Launcher.Hint}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IndexStartupState}"
+                                                 Value="{x:Static viewModels:IndexStartupState.Initializing}">
+                                        <Setter Property="Text" Value="{DynamicResource Status.Initializing}" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IndexStartupState}"
+                                                 Value="{x:Static viewModels:IndexStartupState.Unavailable}">
+                                        <Setter Property="Text" Value="{DynamicResource Status.IndexUnavailable}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </StackPanel>
+                <Button Grid.Column="2" Click="OnHideClick"
+                        Style="{DynamicResource Qsearch.IconButton}"
+                        AutomationProperties.Name="{DynamicResource Widget.Close}">
+                    <ContentControl Width="14" Height="14"
+                                    Style="{DynamicResource Qsearch.VectorIconHost}"
+                                    Template="{DynamicResource Qsearch.CloseGlyph}"
+                                    Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}" />
+                </Button>
+            </Grid>
+
+            <Border Grid.Row="1" Margin="0,17,0,0" Style="{DynamicResource Qsearch.SearchBoxBorder}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Path Width="19" Height="19" Margin="2,0,13,0"
+                          VerticalAlignment="Center" Stretch="Uniform"
+                          Stroke="{DynamicResource Qsearch.AccentBrush}" StrokeThickness="2.2"
+                          StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                          Data="M10,2 A8,8 0 1 0 10,18 A8,8 0 1 0 10,2 M16,16 L22,22" />
+                    <TextBox Grid.Column="1" x:Name="LauncherSearchBox"
+                             Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                             TextChanged="OnSearchTextChanged"
+                             Style="{DynamicResource Qsearch.SearchTextBox}"
+                             FontSize="18"
+                             AutomationProperties.Name="{DynamicResource Search.Placeholder}" />
+                    <TextBlock Grid.Column="2" Text="ESC" VerticalAlignment="Center"
+                               Style="{DynamicResource Qsearch.KeyboardHint}" />
+                </Grid>
+            </Border>
+
+            <Grid Grid.Row="2" Margin="3,13,3,8">
+                <TextBlock Text="{DynamicResource Widget.Results}" FontWeight="SemiBold" />
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Ellipse Width="6" Height="6" Margin="0,0,7,0"
+                             Style="{DynamicResource Qsearch.StatusDot}"
+                             Fill="{DynamicResource Qsearch.AccentBrush}" />
+                    <TextBlock Style="{DynamicResource Qsearch.MutedText}">
+                        <Run Text="{Binding Results.Count, Mode=OneWay}" /><Run Text="  " /><Run Text="{DynamicResource Status.VisibleLabel}" />
+                    </TextBlock>
+                </StackPanel>
+            </Grid>
+
+            <Border Grid.Row="3" Style="{DynamicResource Qsearch.GlassPanel}" Padding="6">
+                <ListBox x:Name="LauncherResults"
+                         ItemsSource="{Binding Results}"
+                         SelectedItem="{Binding SelectedResult}"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         VirtualizingPanel.IsVirtualizing="True"
+                         VirtualizingPanel.VirtualizationMode="Recycling">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem" BasedOn="{StaticResource Qsearch.QuickResultItem}" />
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Button Click="OnResultClick" HorizontalContentAlignment="Stretch"
+                                    Background="Transparent" BorderThickness="0" Padding="8,7">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <ContentPresenter />
+                                    </ControlTemplate>
+                                </Button.Template>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="26" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <ContentControl Content="{Binding}"
+                                                    ContentTemplate="{DynamicResource Qsearch.ResultGlyph}"
+                                                    Style="{DynamicResource Qsearch.ResultIconHost}"
+                                                    VerticalAlignment="Center" />
+                                    <StackPanel Grid.Column="1">
+                                        <TextBlock Text="{Binding DisplayName}" FontWeight="SemiBold"
+                                                   TextTrimming="CharacterEllipsis" />
+                                        <TextBlock Text="{Binding FullPath}" FlowDirection="LeftToRight"
+                                                   Margin="0,3,0,0" TextTrimming="CharacterEllipsis"
+                                                   Style="{DynamicResource Qsearch.MutedText}" />
+                                    </StackPanel>
+                                    <ContentControl Grid.Column="2" Width="13" Height="13" Margin="12,0,2,0"
+                                                    Style="{DynamicResource Qsearch.VectorIconHost}"
+                                                    Template="{DynamicResource Qsearch.ExternalLinkGlyph}"
+                                                    Foreground="{DynamicResource Qsearch.AccentBrush}" />
+                                </Grid>
+                            </Button>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Border>
+
+            <Grid Grid.Row="4" Margin="2,13,2,0">
+                <TextBlock Text="{DynamicResource Status.PrivacyDetail}"
+                           Style="{DynamicResource Qsearch.MutedText}" />
+                <Button Content="{DynamicResource Launcher.OpenFull}" Click="OnOpenMainClick"
+                        HorizontalAlignment="Right" Style="{DynamicResource Qsearch.GhostButton}"
+                        Padding="10,5" />
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

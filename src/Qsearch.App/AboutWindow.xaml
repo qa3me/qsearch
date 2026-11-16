@@ -1,0 +1,106 @@
+<Window x:Class="Qsearch.App.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:Qsearch.App.Controls"
+        Title="{DynamicResource About.Title}"
+        Width="520"
+        Height="690"
+        MinWidth="520"
+        MinHeight="690"
+        MaxWidth="520"
+        MaxHeight="690"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner"
+        Background="{DynamicResource Qsearch.BackgroundBrush}"
+        Foreground="{DynamicResource Qsearch.TextBrush}"
+        FontFamily="{DynamicResource Qsearch.FontFamily}"
+        UseLayoutRounding="True"
+        SnapsToDevicePixels="True">
+    <Grid x:Name="LayoutRoot" Background="{DynamicResource Qsearch.GridBrush}" Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel HorizontalAlignment="Center">
+            <controls:QsearchMark Width="78" Height="78" HorizontalAlignment="Center" />
+            <TextBlock Text="{Binding ProductName}" Margin="0,14,0,0"
+                       HorizontalAlignment="Center" FontSize="30"
+                       Style="{DynamicResource Qsearch.HeadingText}" />
+            <TextBlock Text="{DynamicResource About.Subtitle}" Margin="0,5,0,0"
+                       HorizontalAlignment="Center" Style="{DynamicResource Qsearch.MutedText}" />
+        </StackPanel>
+
+        <Border Grid.Row="1" Margin="0,22,0,0" Style="{DynamicResource Qsearch.GlassPanel}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="{DynamicResource About.Creator}"
+                               Style="{DynamicResource Qsearch.MutedText}" />
+                    <TextBlock Text="{Binding CreatorName}" Margin="0,4,0,0"
+                               FontSize="18" FontWeight="SemiBold" />
+                    <TextBlock Margin="0,4,0,0">
+                        <Run Text="{Binding BrandName, Mode=OneWay}" /><Run Text=" · " /><Run Text="qa3.me" />
+                    </TextBlock>
+                </StackPanel>
+                <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                    <TextBlock Text="{DynamicResource About.Version}"
+                               HorizontalAlignment="Right" Style="{DynamicResource Qsearch.MutedText}" />
+                    <TextBlock Text="{Binding Version}" Margin="0,4,0,0"
+                               HorizontalAlignment="Right" FontFamily="Consolas" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="2" Margin="0,12,0,0" Style="{DynamicResource Qsearch.GlassPanel}">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Ellipse Width="8" Height="8" Fill="{DynamicResource Qsearch.AccentBrush}"
+                             Margin="0,0,9,0" VerticalAlignment="Center" />
+                    <TextBlock Text="{DynamicResource About.Privacy}" FontSize="16"
+                               FontWeight="SemiBold" />
+                </StackPanel>
+                <TextBlock Text="{DynamicResource About.PrivacyBody}" Margin="0,9,0,0"
+                           TextWrapping="Wrap" LineHeight="20"
+                           Style="{DynamicResource Qsearch.MutedText}" />
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="3" Margin="0,12,0,0" Style="{DynamicResource Qsearch.GlassPanel}">
+            <StackPanel>
+                <TextBlock Text="{DynamicResource About.Product}" FontSize="16"
+                           FontWeight="SemiBold" />
+                <TextBlock Text="{DynamicResource About.ProductBody}" Margin="0,8,0,0"
+                           TextWrapping="Wrap" LineHeight="20"
+                           Style="{DynamicResource Qsearch.MutedText}" />
+            </StackPanel>
+        </Border>
+
+        <Grid Grid.Row="5" Margin="0,18,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <Button Content="{DynamicResource About.DeveloperSite}" Click="OnDeveloperClick"
+                        Style="{DynamicResource Qsearch.PrimaryButton}" />
+                <Button Content="{DynamicResource About.ProductSite}" Click="OnProductClick"
+                        Margin="7,0,0,0" Style="{DynamicResource Qsearch.GhostButton}" />
+                <Button Margin="7,0,0,0" Width="36" Height="36" Padding="8"
+                        Click="OnGitHubClick" Style="{DynamicResource Qsearch.GhostButton}"
+                        ToolTip="{DynamicResource About.GitHub}"
+                        AutomationProperties.Name="GitHub">
+                    <ContentControl Width="18" Height="18"
+                                    Style="{DynamicResource Qsearch.VectorIconHost}"
+                                    Template="{DynamicResource Qsearch.GitHubGlyph}"
+                                    Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}" />
+                </Button>
+            </StackPanel>
+            <Button Content="{DynamicResource About.Close}" Click="OnCloseClick"
+                    HorizontalAlignment="Right" Style="{DynamicResource Qsearch.GhostButton}" />
+        </Grid>
+    </Grid>
+</Window>

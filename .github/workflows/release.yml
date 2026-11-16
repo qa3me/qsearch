@@ -1,0 +1,74 @@
+name: Release candidate
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Semantic version without a leading v
+        required: true
+        type: string
+      publish_public_release:
+        description: Request public publication (blocked until owner signing is configured)
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+jobs:
+  unsigned-candidate:
+    runs-on: windows-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Block unsigned public publication
+        if: ${{ inputs.publish_public_release }}
+        shell: pwsh
+        run: throw 'Public binary publication is blocked. Owner-controlled signing inputs and signature verification are not configured in this workflow.'
+
+      - name: Restore, build, and test
+        shell: pwsh
+        run: |
+          dotnet restore Qsearch.slnx
+          dotnet format Qsearch.slnx --verify-no-changes --no-restore
+          dotnet build Qsearch.slnx -c Release --no-restore -warnaserror
+          dotnet test Qsearch.slnx -c Release --no-build
+          dotnet run --project src/Qsearch.Benchmarks/Qsearch.Benchmarks.csproj -c Release --no-build -- --smoke --output work/benchmarks/smoke.json
+
+      - name: Build and verify unsigned candidate
+        shell: pwsh
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+          SOURCE_REVISION: ${{ github.sha }}
+        run: |
+          $version = $env:RELEASE_VERSION
+          if ($version -notmatch '^[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z]+(?:\.[0-9A-Za-z]+)*)?$') {
+            throw 'Invalid release version.'
+          }
+          $portable = "outputs/Qsearch-$version-win-x64-portable.zip"
+          $slim = "outputs/Qsearch-$version-win-x64-slim.zip"
+          ./packaging/build-portable.ps1 -Version $version -OutputDirectory outputs -SourceRevision $env:SOURCE_REVISION
+          ./packaging/build-slim.ps1 -Version $version -OutputDirectory outputs -SourceRevision $env:SOURCE_REVISION
+          ./packaging/verify-package.ps1 -Package $portable -ExpectedVersion $version -ExpectedRevision $env:SOURCE_REVISION
+          ./packaging/verify-package.ps1 -Package $slim -ExpectedVersion $version -ExpectedRevision $env:SOURCE_REVISION
+          $env:QSEARCH_TEST_PACKAGE = (Resolve-Path $portable)
+          $env:QSEARCH_TEST_SLIM_PACKAGE = (Resolve-Path $slim)
+          dotnet test tests/Qsearch.Architecture.Tests/Qsearch.Architecture.Tests.csproj -c Release --no-build
+
+      - name: Upload unsigned candidate for owner review
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: Qsearch-${{ inputs.version }}-unsigned
+          path: |
+            outputs/*
+            work/benchmarks/smoke.json
+          if-no-files-found: error
+          retention-days: 7

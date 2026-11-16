@@ -1,0 +1,66 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <RootNamespace>Qsearch.App</RootNamespace>
+    <AssemblyName>Qsearch</AssemblyName>
+    <Version>0.1.0</Version>
+    <ApplicationIcon>..\..\assets\brand\qsearch.ico</ApplicationIcon>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Qsearch.Core\Qsearch.Core.csproj" />
+    <ProjectReference Include="..\Qsearch.Index\Qsearch.Index.csproj" />
+    <ProjectReference Include="..\Qsearch.Safety\Qsearch.Safety.csproj" />
+    <ProjectReference Include="..\Qsearch.Windows\Qsearch.Windows.csproj" />
+    <ProjectReference Include="..\Qsearch.ElevatedIndexer\Qsearch.ElevatedIndexer.csproj"
+                      Condition="'$(QsearchPackageAppOnly)' != 'true'"
+                      ReferenceOutputAssembly="false" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)' != 'Release' and Exists('..\..\assets\private\fonts\Farhang2-Regular.ttf')">
+    <Content Include="..\..\assets\private\fonts\Farhang2-Regular.ttf"
+             Link="Fonts\Farhang2-Regular.ttf"
+             CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\assets\private\fonts\Farhang2-DemiBold.ttf"
+             Link="Fonts\Farhang2-DemiBold.ttf"
+             CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\assets\private\fonts\Tahrir-Bold.ttf"
+             Link="Fonts\Tahrir-Bold.ttf"
+             CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\assets\private\fonts\Farhang2-FontLicense.txt"
+             Link="Fonts\Farhang2-FontLicense.txt"
+             CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\assets\private\fonts\Tahrir-FontLicense.txt"
+             Link="Fonts\Tahrir-FontLicense.txt"
+             CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\assets\brand\qsearch.ico"
+             Link="qsearch.ico"
+             CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\assets\brand\qsearch-dark.ico"
+             Link="qsearch-dark.ico"
+             CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\assets\brand\qsearch-light.ico"
+             Link="qsearch-light.ico"
+             CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="MainWindow.xaml" CopyToOutputDirectory="PreserveNewest" />
+    <Page Update="Resources\Theme.xaml" CopyToOutputDirectory="PreserveNewest" />
+    <Page Update="Resources\Strings.en.xaml" CopyToOutputDirectory="PreserveNewest" />
+    <Page Update="Resources\Strings.fa.xaml" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <Target Name="CopyElevatedIndexer"
+          AfterTargets="Build"
+          Condition="'$(QsearchPackageAppOnly)' != 'true'">
+    <ItemGroup>
+      <ElevatedIndexerFiles Include="..\Qsearch.ElevatedIndexer\bin\$(Configuration)\net10.0-windows\Qsearch.ElevatedIndexer.*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(ElevatedIndexerFiles)"
+          DestinationFolder="$(OutDir)"
+          SkipUnchangedFiles="true" />
+  </Target>
+</Project>

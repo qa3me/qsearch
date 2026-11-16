@@ -1,0 +1,95 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <IsTestProject>true</IsTestProject>
+    <IsPackable>false</IsPackable>
+    <RootNamespace>Qsearch.App.Tests</RootNamespace>
+    <UseWindowsForms>true</UseWindowsForms>
+    <NoWarn>$(NoWarn);CA1707</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" />
+    <PackageReference Include="xunit.v3" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Qsearch.App\Qsearch.App.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\src\Qsearch.App\MainWindow.xaml"
+             Link="MainWindow.xaml"
+             CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\src\Qsearch.App\Resources\Theme.xaml"
+             Link="Resources\Theme.xaml"
+             CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\src\Qsearch.App\Resources\Fonts.xaml"
+             Link="Resources\Fonts.xaml"
+             CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\src\Qsearch.App\Resources\Palette.Dark.xaml"
+             Link="Resources\Palette.Dark.xaml"
+             CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\src\Qsearch.App\Resources\Palette.Light.xaml"
+             Link="Resources\Palette.Light.xaml"
+             CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\src\Qsearch.App\Resources\Strings.en.xaml"
+             Link="Resources\Strings.en.xaml"
+             CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\src\Qsearch.App\Resources\Strings.fa.xaml"
+             Link="Resources\Strings.fa.xaml"
+             CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\src\Qsearch.App\WidgetWindow.xaml"
+             Link="WidgetWindow.xaml"
+             CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\src\Qsearch.App\AboutWindow.xaml"
+             Link="AboutWindow.xaml"
+             CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\src\Qsearch.App\LauncherWindow.xaml"
+             Link="LauncherWindow.xaml"
+             CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\src\Qsearch.App\SettingsWindow.xaml"
+             Link="SettingsWindow.xaml"
+             CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\src\Qsearch.App\Controls\SettingsPanel.xaml"
+             Link="Controls\SettingsPanel.xaml"
+             CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\assets\brand\qsearch-icon.svg"
+             Link="Assets\qsearch-icon.svg"
+             CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\assets\brand\qsearch.ico"
+             Link="Assets\qsearch.ico"
+             CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\assets\brand\qsearch-dark.ico"
+             Link="Assets\qsearch-dark.ico"
+             CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\assets\brand\qsearch-light.ico"
+             Link="Assets\qsearch-light.ico"
+             CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\src\Qsearch.App\Controls\QsearchMark.xaml"
+             Link="Controls\QsearchMark.xaml"
+             CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\src\Qsearch.App\Controls\QsearchMark.xaml.cs"
+             Link="Contracts\QsearchMark.xaml.cs"
+             CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\src\Qsearch.App\Qsearch.App.csproj"
+             Link="Contracts\Qsearch.App.csproj"
+             CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\src\Qsearch.App\Services\TrayIconService.cs"
+             Link="Contracts\TrayIconService.cs"
+             CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\src\Qsearch.App\LauncherWindow.xaml.cs"
+             Link="Contracts\LauncherWindow.xaml.cs"
+             CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\src\Qsearch.App\MainWindow.xaml.cs"
+             Link="Contracts\MainWindow.xaml.cs"
+             CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\src\Qsearch.App\App.xaml.cs"
+             Link="Contracts\App.xaml.cs"
+             CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\src\Qsearch.App\Controls\IndexPulse.xaml"
+             Link="Controls\IndexPulse.xaml"
+             CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\src\Qsearch.App\Controls\IndexPulse.xaml.cs"
+             Link="Contracts\IndexPulse.xaml.cs"
+             CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

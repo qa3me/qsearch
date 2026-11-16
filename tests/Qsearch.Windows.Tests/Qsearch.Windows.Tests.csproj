@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <IsTestProject>true</IsTestProject>
+    <IsPackable>false</IsPackable>
+    <RootNamespace>Qsearch.Windows.Tests</RootNamespace>
+    <NoWarn>$(NoWarn);CA1707</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" />
+    <PackageReference Include="xunit.v3" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Qsearch.Core\Qsearch.Core.csproj" />
+    <ProjectReference Include="..\..\src\Qsearch.Index\Qsearch.Index.csproj" />
+    <ProjectReference Include="..\..\src\Qsearch.Windows\Qsearch.Windows.csproj" />
+    <ProjectReference Include="..\..\src\Qsearch.ElevatedIndexer\Qsearch.ElevatedIndexer.csproj" />
+  </ItemGroup>
+</Project>
